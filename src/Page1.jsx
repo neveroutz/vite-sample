@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Tab from './Tab.jsx';
+import GoogleSheetsUsers from './components/GoogleSheetsUsers.jsx';
 
 function Page1() {
   return (
@@ -7,6 +8,10 @@ function Page1() {
       <h1>Page 1</h1>
       <p>이것은 첫 번째 페이지입니다.</p>
       <Tab />
+
+      {/* Google Sheets 사용자 목록 */}
+      <GoogleSheetsUsers />
+
       <div className="navigation">
         <Link to="/" className="nav-link">
           홈으로

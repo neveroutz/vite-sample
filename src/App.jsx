@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext.jsx';
 import { getPageConfig } from './config/layoutConfig.js';
-import sampleData from './data/sampleData.json';
 import Header from './components/Header.jsx';
 import SvgIcon from './components/SvgIcon.jsx';
+import GoogleSheetsUsers from './components/GoogleSheetsUsers.jsx';
 import Page1 from './Page1.jsx';
 import Page2 from './Page2.jsx';
 import Tab from './Tab.jsx';
@@ -59,57 +59,49 @@ function Layout() {
 
 function HomePage() {
   const [count, setCount] = useState(0);
-  const [activeTab, setActiveTab] = useState(0);
-  const [displayedUsers, setDisplayedUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [newlyAddedItems, setNewlyAddedItems] = useState(new Set());
+  // Google Sheets 컴포넌트로 대체되어 더 이상 필요하지 않음
+  // const [displayedUsers, setDisplayedUsers] = useState([]);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage] = useState(10);
+  // const [newlyAddedItems, setNewlyAddedItems] = useState(new Set());
 
-  const totalUsers = sampleData.users.length;
-  const totalPages = Math.ceil(totalUsers / itemsPerPage);
+  // const totalUsers = sampleData.users.length;
+  // const totalPages = Math.ceil(totalUsers / itemsPerPage);
 
-  const activeTabChgIdx = (tabIndex) => {
-    setActiveTab(tabIndex)
-  }
+  // Google Sheets 컴포넌트로 대체되어 더 이상 필요하지 않음
+  // useEffect(() => {
+  //   // 초기 로드 시 첫 10개 항목 표시
+  //   const initialUsers = sampleData.users.slice(0, itemsPerPage);
+  //   setDisplayedUsers(initialUsers);
+  //   // 초기 로드된 아이템들도 애니메이션 적용
+  //   const initialIds = new Set(initialUsers.map(user => user.id));
+  //   setNewlyAddedItems(initialIds);
+  //   // 초기 애니메이션 후 상태 클리어
+  //   setTimeout(() => {
+  //     setNewlyAddedItems(new Set());
+  //   }, 1200); // 애니메이션 시간 연장에 맞춰 조정
+  // }, [itemsPerPage]);
 
-  useEffect(() => {
-    // 초기 로드 시 첫 10개 항목 표시
-    const initialUsers = sampleData.users.slice(0, itemsPerPage);
-    setDisplayedUsers(initialUsers);
-
-    // 초기 로드된 아이템들도 애니메이션 적용
-    const initialIds = new Set(initialUsers.map(user => user.id));
-    setNewlyAddedItems(initialIds);
-
-    // 초기 애니메이션 후 상태 클리어
-    setTimeout(() => {
-      setNewlyAddedItems(new Set());
-    }, 1200); // 애니메이션 시간 연장에 맞춰 조정
-  }, [itemsPerPage]);
-
-  const loadMoreUsers = () => {
-    if (currentPage < totalPages) {
-      const nextPage = currentPage + 1;
-      const startIndex = 0;
-      const endIndex = nextPage * itemsPerPage;
-      const newUsers = sampleData.users.slice(startIndex, endIndex);
-
-      // 새로 추가된 아이템들의 ID 찾기
-      const previousUserIds = new Set(displayedUsers.map(user => user.id));
-      const newlyAdded = new Set(
-        newUsers.filter(user => !previousUserIds.has(user.id)).map(user => user.id)
-      );
-
-      setDisplayedUsers(newUsers);
-      setCurrentPage(nextPage);
-      setNewlyAddedItems(newlyAdded);
-
-      // 애니메이션 완료 후 상태 클리어
-      setTimeout(() => {
-        setNewlyAddedItems(new Set());
-      }, 1200); // 애니메이션 시간 연장에 맞춰 조정
-    }
-  };
+  // const loadMoreUsers = () => {
+  //   if (currentPage < totalPages) {
+  //     const nextPage = currentPage + 1;
+  //     const startIndex = 0;
+  //     const endIndex = nextPage * itemsPerPage;
+  //     const newUsers = sampleData.users.slice(startIndex, endIndex);
+  //     // 새로 추가된 아이템들의 ID 찾기
+  //     const previousUserIds = new Set(displayedUsers.map(user => user.id));
+  //     const newlyAdded = new Set(
+  //       newUsers.filter(user => !previousUserIds.has(user.id)).map(user => user.id)
+  //     );
+  //     setDisplayedUsers(newUsers);
+  //     setCurrentPage(nextPage);
+  //     setNewlyAddedItems(newlyAdded);
+  //     // 애니메이션 완료 후 상태 클리어
+  //     setTimeout(() => {
+  //       setNewlyAddedItems(new Set());
+  //     }, 1200); // 애니메이션 시간 연장에 맞춰 조정
+  //   }
+  // };
 
   return (
     <>
@@ -127,54 +119,8 @@ function HomePage() {
         </div>
       </div>
 
-      <div className="user-list-section">
-        <h2>사용자 목록</h2>
-        <ul className="sample-list" role="list">
-          {displayedUsers.length > 0 ? (
-            displayedUsers.map((user, index) => {
-              const isNewItem = newlyAddedItems.has(user.id);
-              const newItemsArray = Array.from(newlyAddedItems);
-              const newItemIndex = newItemsArray.indexOf(user.id);
-              const animationDelay =
-                isNewItem && newItemIndex >= 0 ? `${newItemIndex * 0.08}s` : undefined;
-
-              return (
-                <li
-                  key={user.id}
-                  className={isNewItem ? 'fade-in-up' : ''}
-                  style={
-                    animationDelay
-                      ? {
-                          '--animation-delay': animationDelay,
-                        }
-                      : undefined
-                  }
-                  role="listitem"
-                  aria-label={`사용자: ${user.name}, 지역: ${user.location}, 연락처: ${user.phone}`}
-                >
-                  <p className="user-name">{user.name}</p>
-                  <p className="user-location">{user.location}</p>
-                  <p className="user-phone">{user.phone}</p>
-                </li>
-              );
-            })
-          ) : (
-            <li className="no-users" role="listitem">
-              <p className="empty-message">표시할 사용자가 없습니다.</p>
-            </li>
-          )}
-        </ul>
-
-        {currentPage < totalPages && displayedUsers.length > 0 && (
-          <button type="button" className="load-more-btn" onClick={loadMoreUsers}>
-            더보기 ({displayedUsers.length}/{totalUsers})
-          </button>
-        )}
-
-        {currentPage >= totalPages && displayedUsers.length > 0 && (
-          <p className="all-loaded">모든 사용자를 불러왔습니다.</p>
-        )}
-      </div>
+      {/* Google Sheets 사용자 목록 */}
+      <GoogleSheetsUsers />
 
       {/* SVG Sprite 예제 테이블 */}
       <div className="svg-showcase">
