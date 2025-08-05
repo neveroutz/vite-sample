@@ -1,0 +1,221 @@
+@import '../utils/variables.scss';
+
+// Navigation styles
+.main-nav {
+  background-color: var(--color-nav-bg);
+  border-bottom: 1px solid var(--color-nav-border);
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+
+  .nav-link {
+    color: var(--color-nav-link);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: $border-radius;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+
+    &:hover {
+      background-color: var(--color-bg-secondary);
+      color: var(--color-nav-link-hover);
+      border-color: var(--color-border-primary);
+    }
+
+    &.active {
+      background-color: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+  }
+}
+
+// Page styles
+.page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+
+  h1 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+  }
+
+  .navigation {
+    margin: 2rem 0;
+    display: flex;
+    gap: 1rem;
+
+    .nav-link {
+      background-color: var(--color-primary);
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: $border-radius;
+      transition: background-color $transition-duration;
+
+      &:hover {
+        background-color: $primary-hover;
+      }
+    }
+  }
+
+  .content {
+    margin-top: 2rem;
+
+    h2 {
+      color: $text-dark;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+
+      .feature-card {
+        background: #f5f5f5;
+        padding: 1.5rem;
+        border-radius: $border-radius;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        h3 {
+          color: $primary-color;
+          margin-bottom: 0.5rem;
+        }
+
+        p {
+          margin: 0;
+          color: #666;
+        }
+      }
+    }
+  }
+}
+
+// Home page specific styles
+.page-links {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+
+  .page-link {
+    background-color: $secondary-color;
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: $border-radius;
+    transition: opacity $transition-duration;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+// Page2 specific navigation
+.page2-nav {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 0;
+
+  .nav-brand {
+    h2 {
+      color: white;
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .page2-nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all $transition-duration;
+    font-weight: 500;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+// Page2 content adjustments
+.page2-content {
+  margin-top: 0;
+
+  h1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+}
+
+// Footer styles
+.main-footer {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  text-align: center;
+  margin-top: 2rem;
+  border-top: 1px solid #e9ecef;
+
+  p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.875rem;
+  }
+}
+
+// Layout classes for different page types
+.app {
+  &.page2-layout {
+    // Page2 specific layout styles
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+  }
+
+  // Future layout classes can be added here:
+  // &.admin-layout {
+  //   background: #1a1a1a;
+  //   color: white;
+  // }
+}

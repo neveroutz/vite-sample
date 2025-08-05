@@ -1,0 +1,172 @@
+// Mixins
+@mixin button-style {
+  border-radius: $border-radius;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color $transition-duration;
+
+  &:hover {
+    border-color: $primary-color;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+}
+
+@mixin logo-hover($color) {
+  &:hover {
+    filter: drop-shadow(0 0 2em #{$color}aa);
+  }
+}
+
+// 테마 색상 자동 반전 함수들
+@function invert-color($color) {
+  @return invert($color);
+}
+
+@function darken-for-dark-theme($color, $amount: 20%) {
+  $inverted: invert($color);
+  // 너무 밝으면 조금 어둡게, 너무 어두우면 조금 밝게
+  @if lightness($inverted) > 80% {
+    @return darken($inverted, $amount);
+  } @else if lightness($inverted) < 20% {
+    @return lighten($inverted, $amount);
+  }
+  @return $inverted;
+}
+
+@function smart-invert($color) {
+  $inverted: invert($color);
+  $lightness: lightness($inverted);
+
+  // 색상이 너무 극단적이면 조정
+  @if $lightness > 90% {
+    @return darken($inverted, 15%);
+  } @else if $lightness < 10% {
+    @return lighten($inverted, 15%);
+  }
+  @return $inverted;
+}
+
+@function create-dark-shadow($shadow) {
+  // rgba(0,0,0,x)를 rgba(255,255,255,x)로 변환
+  @if type-of($shadow) == 'list' {
+    $result: ();
+    @each $s in $shadow {
+      @if str-index(inspect($s), 'rgba(0, 0, 0') {
+        $new-shadow: str-replace(inspect($s), 'rgba(0, 0, 0', 'rgba(255, 255, 255');
+        $result: append($result, unquote($new-shadow), comma);
+      } @else {
+        $result: append($result, $s, comma);
+      }
+    }
+    @return $result;
+  }
+
+  @if str-index(inspect($shadow), 'rgba(0, 0, 0') {
+    @return unquote(str-replace(inspect($shadow), 'rgba(0, 0, 0', 'rgba(255, 255, 255'));
+  }
+  @return $shadow;
+}
+
+// 문자열 치환 함수 (그림자 색상 변환용)
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace +
+      str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
+// 테마 변수 생성 믹신
+@mixin create-theme-variables($theme-name, $colors) {
+  :root[data-theme='#{$theme-name}'] {
+    // 폰트 변수 (모든 테마 공통)
+    --font-family-primary: #{$font-family-primary};
+    --font-family-mono: #{$font-family-mono};
+
+    @each $property, $value in $colors {
+      --#{$property}: #{$value};
+    }
+  }
+}
+
+// Useful SCSS Functions
+// Convert pixels to rem units
+@function px-to-rem($px, $base: 16px) {
+  @return ($px / $base) * 1rem;
+}
+
+// Darken a color by a percentage
+@function darken-color($color, $percentage) {
+  @return darken($color, $percentage);
+}
+
+// Lighten a color by a percentage
+@function lighten-color($color, $percentage) {
+  @return lighten($color, $percentage);
+}
+
+// Get color with opacity
+@function alpha-color($color, $alpha) {
+  @return rgba($color, $alpha);
+}
+
+// Calculate contrast ratio for accessibility
+@function luminance($color) {
+  $red: red($color) / 255;
+  $green: green($color) / 255;
+  $blue: blue($color) / 255;
+
+  $red: if($red < 0.03928, $red / 12.92, pow(($red + 0.055) / 1.055, 2.4));
+  $green: if($green < 0.03928, $green / 12.92, pow(($green + 0.055) / 1.055, 2.4));
+  $blue: if($blue < 0.03928, $blue / 12.92, pow(($blue + 0.055) / 1.055, 2.4));
+
+  @return (0.2126 * $red) + (0.7152 * $green) + (0.0722 * $blue);
+}
+
+@function contrast-ratio($color1, $color2) {
+  $l1: luminance($color1);
+  $l2: luminance($color2);
+  $lighter: max($l1, $l2);
+  $darker: min($l1, $l2);
+  @return ($lighter + 0.05) / ($darker + 0.05);
+}
+
+// Strip units from a value
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+// Convert any unit to pixels
+@function to-px($value, $base: 16px) {
+  @if unit($value) == 'px' {
+    @return $value;
+  } @else if unit($value) == 'rem' {
+    @return strip-unit($value) * $base;
+  } @else if unit($value) == 'em' {
+    @return strip-unit($value) * $base;
+  } @else {
+    @warn "Cannot convert #{unit($value)} to px";
+    @return $value;
+  }
+}
+
+// Generate box-shadow with multiple layers
+@function multi-shadow($shadows...) {
+  $result: ();
+  @each $shadow in $shadows {
+    $result: append($result, $shadow, comma);
+  }
+  @return $result;
+}

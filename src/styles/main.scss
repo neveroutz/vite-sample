@@ -1,0 +1,18 @@
+// Main SCSS file that imports all other styles
+// 1. Variables first (used by everything else)
+@import 'utils/variables';
+
+// 2. Functions & Mixins (used by theme)
+@import 'utils/mixins';
+
+// 3. Base styles
+@import 'base/reset';
+
+// 4. Theme (uses functions from mixins)
+@import 'base/theme';
+
+// 5. Components
+@import 'components/common';
+@import 'components/app';
+@import 'components/navigation';
+@import 'components/header';

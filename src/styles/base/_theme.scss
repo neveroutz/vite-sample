@@ -1,0 +1,106 @@
+// Light 테마 기본 색상 정의
+$light-colors: (
+  // 기본 색상
+  color-primary: #646cff,
+  color-primary-hover: #535bf2,
+  color-accent: #61dafb,
+
+  // 배경 색상
+  color-bg-primary: #ffffff,
+  color-bg-secondary: #f9f9f9,
+  color-bg-tertiary: #f1f1f1,
+
+  // 텍스트 색상
+  color-text-primary: #213547,
+  color-text-secondary: #747bff,
+  color-text-muted: #666666,
+
+  // 테두리 색상
+  color-border-primary: #e1e1e1,
+  color-border-secondary: #d1d5db,
+
+  // 버튼 색상
+  color-btn-bg: #f9f9f9,
+  color-btn-border: #213547,
+  color-btn-text: #213547,
+  color-btn-hover-bg: #213547,
+  color-btn-hover-text: #ffffff,
+
+  // 카드 색상
+  color-card-bg: #ffffff,
+  color-card-border: #e1e1e1,
+
+  // 네비게이션 색상
+  color-nav-bg: #ffffff,
+  color-nav-border: #e1e1e1,
+  color-nav-link: #646cff,
+  color-nav-link-hover: #535bf2,
+
+  // 헤더 색상
+  color-header-bg: #ffffff,
+  color-header-border: #e1e1e1,
+  color-header-text: #213547
+);
+
+// Light 테마 그림자 정의
+$light-shadows: (
+  shadow-sm: (
+    0 1px 2px 0 rgba(0, 0, 0, 0.05),
+  ),
+  shadow-md: (
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+  ),
+  shadow-lg: (
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+  ),
+);
+
+// Light 테마 생성
+@include create-theme-variables('light', map-merge($light-colors, $light-shadows));
+
+// Dark 테마 자동 생성
+:root[data-theme='dark'] {
+  // 색상 자동 반전
+  @each $property, $value in $light-colors {
+    @if str-index($property, 'primary') or str-index($property, 'accent') {
+      // primary, accent 색상은 약간 밝게 조정
+      --#{$property}: #{lighten($value, 10%)};
+    } @else if str-index($property, 'bg') {
+      // 배경색은 어두운 색으로 변경
+      --#{$property}: #{if(lightness($value) > 50%, #1a1a1a, #ffffff)};
+    } @else if str-index($property, 'text') {
+      // 텍스트 색상은 반대로
+      --#{$property}: #{if(lightness($value) > 50%, #ffffff, #1a1a1a)};
+    } @else if str-index($property, 'border') {
+      // 테두리는 어두운 색조로
+      --#{$property}: #{darken($value, 30%)};
+    } @else {
+      // 나머지는 적당히 조정
+      --#{$property}: #{if(lightness($value) > 50%, darken($value, 40%), lighten($value, 40%))};
+    }
+  }
+
+  // 그림자는 다크 테마용으로 수동 정의
+  --shadow-sm: 0 1px 2px 0 rgba(255, 255, 255, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(255, 255, 255, 0.1), 0 2px 4px -1px rgba(255, 255, 255, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.05);
+
+  .tab-area {
+    background-color:#000;
+    .tab-buttons {
+      button {
+        &.active {
+
+        }
+      }
+    }
+    .tab-contents-area {
+      .tab-contents {
+        display:none;
+        &.active {display:block;}
+      }
+    }
+  }
+}

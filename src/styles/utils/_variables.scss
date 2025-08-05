@@ -1,0 +1,25 @@
+// Variables
+$primary-color: #646cff;
+$primary-hover: #535bf2;
+$secondary-color: #61dafb;
+$background-dark: #242424;
+$background-light: #ffffff;
+$text-dark: #213547;
+$text-light: rgba(255, 255, 255, 0.87);
+$border-radius: 8px;
+$transition-duration: 0.25s;
+
+// Font Variables
+$font-family-primary: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-family-mono: 'Noto Sans Mono', 'Courier New', monospace;
+
+// Function usage examples (using our custom functions)
+$base-font-size: 16px;
+$large-spacing: px-to-rem(32px); // Convert 32px to rem
+$primary-light: lighten-color($primary-color, 20%); // Lighter version of primary
+$primary-dark: darken-color($primary-color, 15%); // Darker version of primary
+$primary-alpha: alpha-color($primary-color, 0.8); // Primary with transparency
+$card-shadow: multi-shadow(
+  0 2px 4px rgba(0, 0, 0, 0.1),
+  0 4px 8px rgba(0, 0, 0, 0.05)
+); // Multiple shadow layers

@@ -1,0 +1,70 @@
+@import '../utils/variables.scss';
+@import '../utils/mixins.scss';
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+
+  @include logo-hover($primary-color);
+
+  &.react {
+    @include logo-hover($secondary-color);
+  }
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+// Page links styles
+.page-links {
+  margin: 2rem 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.page-link {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  text-decoration: none;
+  border: 1px solid var(--color-btn-border);
+  border-radius: $border-radius;
+  transition: all 0.3s ease;
+  font-weight: 500;
+
+  &:hover {
+    background-color: var(--color-btn-hover-bg);
+    color: var(--color-btn-hover-text);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+  }
+}
