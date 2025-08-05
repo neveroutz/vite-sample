@@ -1,56 +1,74 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 
-function GoogleSheetsControls({ 
-  users, 
-  onSearch, 
-  onLocationFilter, 
-  onReset, 
-  onRefresh 
+function GoogleSheetsControls({
+  users,
+  onSearch,
+  onLocationFilter,
+  onReset
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
-  const [isComposing, setIsComposing] = useState(false);
   const debounceTimer = useRef(null);
+  const lastSearchValue = useRef(''); // 마지막 검색어 추적
 
   // 지역 목록 (고유값) - useMemo로 최적화
   const locations = useMemo(() => {
     return [...new Set(users.map(user => user.location))].filter(Boolean).sort();
   }, [users]);
 
-  // 디바운싱된 검색 함수
-  const debouncedSearch = (value) => {
+  // 통합 검색 함수 (간소화된 로직)
+  const performSearch = (value, immediate = false) => {
+    console.log('🔍 검색 요청:', { value, immediate, lastValue: lastSearchValue.current });
+    
+    // 중복 검색 방지
+    if (value === lastSearchValue.current) {
+      console.log('⏭️ 중복 검색 방지');
+      return;
+    }
+
+    // 기존 타이머 제거
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
     }
 
-    debounceTimer.current = setTimeout(() => {
-      if (!isComposing) {
-        onSearch(value);
-      }
-    }, 300);
-  };
+    const executeSearch = () => {
+      console.log('🚀 실제 검색 실행:', value);
+      lastSearchValue.current = value;
+      onSearch(value);
+    };
 
-  // 검색 핸들러
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-
-    if (!isComposing) {
-      debouncedSearch(value);
+    if (immediate) {
+      executeSearch();
+    } else {
+      // 적응적 디바운싱: 삭제 시 빠르게, 입력 시 적당히
+      const delay = value.length < searchTerm.length ? 150 : 300;
+      debounceTimer.current = setTimeout(executeSearch, delay);
     }
   };
 
-  // 한글 조합 시작
-  const handleCompositionStart = () => {
-    setIsComposing(true);
+  // 검색 핸들러 (onChange)
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    console.log('⌨️ onChange 이벤트:', value);
+    setSearchTerm(value);
+    performSearch(value, false);
   };
 
-  // 한글 조합 완료
+  // 한글 조합 시작 (compositionstart)
+  const handleCompositionStart = () => {
+    console.log('🎯 한글 조합 시작');
+    // 기존 타이머 취소
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+  };
+
+  // 한글 조합 완료 (compositionend)
   const handleCompositionEnd = (e) => {
-    setIsComposing(false);
     const value = e.target.value;
+    console.log('✅ 한글 조합 완료:', value);
     setSearchTerm(value);
-    debouncedSearch(value);
+    performSearch(value, true); // 즉시 검색
   };
 
   // 지역 필터 핸들러
@@ -67,6 +85,15 @@ function GoogleSheetsControls({
     setSelectedLocation('');
     onReset();
   };
+
+  // 컴포넌트 언마운트 시 타이머 정리
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="users-controls">
@@ -99,10 +126,6 @@ function GoogleSheetsControls({
 
       <button onClick={handleReset} className="reset-btn">
         초기화
-      </button>
-
-      <button onClick={onRefresh} className="refresh-btn">
-        새로고침
       </button>
     </div>
   );

@@ -81,33 +81,23 @@
     }
   }
 
-  .reset-btn, .refresh-btn {
+  .reset-btn {
     padding: 12px 20px;
     border: 1px solid var(--color-border-primary);
     border-radius: 8px;
-    background: var(--color-bg-secondary);
-    color: var(--color-text-primary);
+    background: var(--color-primary);
+    color: white;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      background: var(--color-bg-tertiary);
-      border-color: var(--color-primary);
+      background: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
     }
 
     &:active {
       transform: translateY(1px);
-    }
-  }
-
-  .refresh-btn {
-    background: var(--color-primary);
-    color: white;
-    border-color: var(--color-primary);
-
-    &:hover {
-      background: var(--color-primary-hover);
     }
   }
 }
@@ -306,7 +296,7 @@
       min-width: auto;
     }
 
-    .reset-btn, .refresh-btn {
+    .reset-btn {
       width: 100%;
     }
   }

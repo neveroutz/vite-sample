@@ -64,7 +64,7 @@ function Layout() {
 
 function HomePage() {
   const [count, setCount] = useState(0);
-  
+
   // Google Sheets hook을 HomePage에서 관리
   const {
     users,
@@ -78,6 +78,7 @@ function HomePage() {
 
   // 컨트롤 핸들러들
   const handleSearch = (searchTerm) => {
+    console.log('🎯 App.jsx에서 검색 요청 받음:', searchTerm); // 디버그 로그
     searchUsers(searchTerm);
   };
 
@@ -90,10 +91,6 @@ function HomePage() {
   };
 
   const handleReset = () => {
-    loadUsers();
-  };
-
-  const handleRefresh = () => {
     loadUsers();
   };
   // Google Sheets 컴포넌트로 대체되어 더 이상 필요하지 않음
@@ -164,9 +161,8 @@ function HomePage() {
           onSearch={handleSearch}
           onLocationFilter={handleLocationFilter}
           onReset={handleReset}
-          onRefresh={handleRefresh}
         />
-        
+
         {/* 데이터만 렌더링하는 영역 */}
         {loading ? (
           <div className="google-sheets-loading">
@@ -177,7 +173,7 @@ function HomePage() {
           <div className="google-sheets-error">
             <h3>❌ Google Sheets 연결 오류</h3>
             <p>{error}</p>
-            <button onClick={handleRefresh} className="retry-btn">
+            <button onClick={handleReset} className="retry-btn">
               다시 시도
             </button>
           </div>

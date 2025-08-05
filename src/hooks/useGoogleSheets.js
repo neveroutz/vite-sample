@@ -59,7 +59,10 @@ export const useGoogleSheets = () => {
 
   // 이름으로 검색
   const searchUsers = async (searchTerm) => {
+    console.log('🔎 useGoogleSheets에서 검색 실행:', searchTerm); // 디버그 로그
+    
     if (!searchTerm.trim()) {
+      console.log('🔄 빈 검색어로 전체 목록 로드'); // 디버그 로그
       loadUsers();
       return;
     }
@@ -68,9 +71,12 @@ export const useGoogleSheets = () => {
     setError(null);
 
     try {
+      console.log('📡 API 검색 요청 시작:', searchTerm); // 디버그 로그
       const searchResults = await searchUsersByName(searchTerm);
+      console.log('✅ API 검색 결과:', searchResults.length, '개'); // 디버그 로그
       setUsers(searchResults);
     } catch (err) {
+      console.error('❌ 검색 오류:', err); // 디버그 로그
       setError(err.message);
     } finally {
       setLoading(false);

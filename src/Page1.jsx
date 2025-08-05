@@ -24,7 +24,7 @@ function Page1() {
           <li>두 번째 기능</li>
           <li>세 번째 기능</li>
         </ul>
-        
+
         <div className="page1-info">
           <h3>📋 Google Sheets 데이터</h3>
           <p>Google Sheets 사용자 목록은 <Link to="/">홈 페이지</Link>에서 확인하실 수 있습니다.</p>
