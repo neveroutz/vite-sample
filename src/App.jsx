@@ -11,9 +11,12 @@ import Tab from './Tab.jsx';
 
 
 function App() {
+  // GitHub Pages 배포를 위한 basename 설정
+  const basename = process.env.NODE_ENV === 'production' ? '/vite-sample' : '';
+  
   return (
     <ThemeProvider>
-      <Router>
+      <Router basename={basename}>
         <Layout />
       </Router>
     </ThemeProvider>
