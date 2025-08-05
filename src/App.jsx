@@ -5,6 +5,8 @@ import { getPageConfig } from './config/layoutConfig.js';
 import Header from './components/Header.jsx';
 import SvgIcon from './components/SvgIcon.jsx';
 import GoogleSheetsUsers from './components/GoogleSheetsUsers.jsx';
+import GoogleSheetsControls from './components/GoogleSheetsControls.jsx';
+import { useGoogleSheets } from './hooks/useGoogleSheets.js';
 import Page1 from './Page1.jsx';
 import Page2 from './Page2.jsx';
 import Tab from './Tab.jsx';
@@ -62,6 +64,38 @@ function Layout() {
 
 function HomePage() {
   const [count, setCount] = useState(0);
+  
+  // Google Sheets hook을 HomePage에서 관리
+  const {
+    users,
+    loading,
+    error,
+    loadUsers,
+    filterByLocation,
+    searchUsers,
+    totalUsers
+  } = useGoogleSheets();
+
+  // 컨트롤 핸들러들
+  const handleSearch = (searchTerm) => {
+    searchUsers(searchTerm);
+  };
+
+  const handleLocationFilter = (location) => {
+    if (location) {
+      filterByLocation(location);
+    } else {
+      loadUsers();
+    }
+  };
+
+  const handleReset = () => {
+    loadUsers();
+  };
+
+  const handleRefresh = () => {
+    loadUsers();
+  };
   // Google Sheets 컴포넌트로 대체되어 더 이상 필요하지 않음
   // const [displayedUsers, setDisplayedUsers] = useState([]);
   // const [currentPage, setCurrentPage] = useState(1);
@@ -123,7 +157,34 @@ function HomePage() {
       </div>
 
       {/* Google Sheets 사용자 목록 */}
-      <GoogleSheetsUsers />
+      <div className="google-sheets-section">
+        {/* 고정된 컨트롤 영역 - 리렌더링되지 않음 */}
+        <GoogleSheetsControls
+          users={users}
+          onSearch={handleSearch}
+          onLocationFilter={handleLocationFilter}
+          onReset={handleReset}
+          onRefresh={handleRefresh}
+        />
+        
+        {/* 데이터만 렌더링하는 영역 */}
+        {loading ? (
+          <div className="google-sheets-loading">
+            <p>📊 Google Sheets에서 데이터를 불러오는 중...</p>
+            <div className="loading-spinner"></div>
+          </div>
+        ) : error ? (
+          <div className="google-sheets-error">
+            <h3>❌ Google Sheets 연결 오류</h3>
+            <p>{error}</p>
+            <button onClick={handleRefresh} className="retry-btn">
+              다시 시도
+            </button>
+          </div>
+        ) : (
+          <GoogleSheetsUsers users={users} totalUsers={totalUsers} />
+        )}
+      </div>
 
       {/* SVG Sprite 예제 테이블 */}
       <div className="svg-showcase">

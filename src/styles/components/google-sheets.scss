@@ -1,9 +1,14 @@
 /* Google Sheets Users 컴포넌트 스타일 */
 
-.google-sheets-users {
+.google-sheets-section {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.google-sheets-users {
+  margin-top: 20px;
+  /* max-width와 margin을 제거하여 section에서 관리 */
 }
 
 .users-header {
@@ -28,6 +33,11 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  min-height: 56px; /* 최소 높이 고정 */
+  position: relative;
+  opacity: 1;
+  transition: none; /* 깜빡임 방지 */
+  z-index: 10; /* 다른 요소들 위에 고정 */
 
   .search-box {
     flex: 1;
