@@ -60,7 +60,7 @@ export const useGoogleSheets = () => {
   // 이름으로 검색
   const searchUsers = async (searchTerm) => {
     console.log('🔎 useGoogleSheets에서 검색 실행:', searchTerm); // 디버그 로그
-    
+
     if (!searchTerm.trim()) {
       console.log('🔄 빈 검색어로 전체 목록 로드'); // 디버그 로그
       loadUsers();

@@ -19,7 +19,7 @@ function GoogleSheetsControls({
   // 통합 검색 함수 (간소화된 로직)
   const performSearch = (value, immediate = false) => {
     console.log('🔍 검색 요청:', { value, immediate, lastValue: lastSearchValue.current });
-    
+
     // 중복 검색 방지
     if (value === lastSearchValue.current) {
       console.log('⏭️ 중복 검색 방지');
