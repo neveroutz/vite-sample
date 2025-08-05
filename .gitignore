@@ -12,10 +12,17 @@ dist
 dist-ssr
 *.local
 
-# Environment variables (보안)
+# 🔒 Environment variables (보안 - 절대 커밋 금지!)
 .env
-.env.local
-.env.production
+.env.*
+!.env.example
+
+# 🚨 API 키 및 민감한 정보 (절대 커밋 금지!)
+**/api-keys.txt
+**/secrets.txt
+**/*secret*
+**/*key*
+**/*token*
 
 # Editor directories and files
 .vscode/*

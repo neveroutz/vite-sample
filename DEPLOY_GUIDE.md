@@ -21,14 +21,16 @@ GitHub 저장소에서 환경변수를 설정해야 합니다:
 
 ```
 이름: VITE_GOOGLE_API_KEY
-값: AIzaSyA0Glf81Nj_oCqLUkBpyGthn7BfarXTObU
+값: [새로_발급받은_API_키_입력]
 
-이름: VITE_GOOGLE_SHEET_ID  
-값: 1TB2b_BS8vrfN9dC2Hwf3Z95ZInGh1MMnLAwJl8yaebc
+이름: VITE_GOOGLE_SHEET_ID
+값: [본인의_스프레드시트_ID_입력]
 
 이름: VITE_GOOGLE_SHEET_NAME
 값: sample-users-database
 ```
+
+⚠️ **보안 주의**: 실제 API 키는 GitHub Secrets에만 저장하고, 문서에는 절대 평문으로 적지 마세요!
 
 ### 🚀 4. GitHub Pages 활성화
 
