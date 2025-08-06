@@ -10,6 +10,7 @@ import { useGoogleSheets } from './hooks/useGoogleSheets.js';
 import Page1 from './Page1.jsx';
 import Page2 from './Page2.jsx';
 import BoardList from './BoardList.jsx';
+import BoardDetail from './BoardDetail.jsx';
 import Tab from './Tab.jsx';
 
 
@@ -56,6 +57,7 @@ function Layout() {
         <Route path="/page1" element={<Page1 />} />
         <Route path="/page2" element={<Page2 />} />
         <Route path="/BoardList" element={<BoardList />} />
+        <Route path="/board/:id" element={<BoardDetail />} />
       </Routes>
 
       {config.hasFooter && (

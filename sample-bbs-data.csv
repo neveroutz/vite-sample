@@ -1,9 +1,552 @@
 ID,제목,내용,작성자,조회수,등록일
-1,React 개발 환경 설정 가이드,React 프로젝트를 시작하기 위한 개발 환경 설정 방법을 알아보겠습니다. Node.js 설치부터 Create React App 사용법까지 상세히 설명합니다.,김개발,127,2025-01-15
-2,JavaScript ES6+ 신기능 정리,ES6부터 최신 JavaScript까지의 새로운 기능들을 정리했습니다. Arrow Function부터 Optional Chaining까지 다룹니다.,이자바,89,2025-01-16
-3,CSS Grid와 Flexbox 비교,레이아웃을 위한 CSS Grid와 Flexbox의 차이점과 언제 어떤 것을 사용해야 하는지 알아봅시다.,박스타일,156,2025-01-17
-4,Node.js API 서버 구축하기,Express.js를 사용한 RESTful API 서버 구축 과정을 단계별로 설명합니다.,최노드,203,2025-01-18
-5,Git 브랜치 전략 가이드,효율적인 Git 브랜치 관리를 위한 Git Flow와 GitHub Flow 전략을 비교 분석합니다.,강깃허브,78,2025-01-19
+1,React 개발 환경 설정 가이드,"React 프로젝트를 시작하기 위한 개발 환경 설정 방법을 알아보겠습니다.
+
+먼저 Node.js 설치가 필요합니다. Node.js는 JavaScript 런타임으로, React 개발에 필수적인 도구입니다.
+
+설치 과정:
+1. Node.js 공식 사이트에서 LTS 버전 다운로드
+2. npm 또는 yarn 패키지 매니저 확인
+3. Create React App 설치: npm install -g create-react-app
+4. 새 프로젝트 생성: npx create-react-app my-app
+
+개발 서버 실행:
+- cd my-app
+- npm start
+
+이제 http://localhost:3000에서 React 앱을 확인할 수 있습니다. 개발자 도구와 Hot Reload 기능을 활용하여 효율적인 개발을 진행하세요.",김개발,127,2025-01-15
+2,JavaScript ES6+ 신기능 정리,"ES6부터 최신 JavaScript까지의 새로운 기능들을 정리했습니다.
+
+주요 ES6+ 기능들:
+
+1. Arrow Function
+const add = (a, b) => a + b;
+
+2. Template Literals
+const message = `Hello, ${name}!`;
+
+3. Destructuring
+const { name, age } = user;
+const [first, second] = array;
+
+4. Spread Operator
+const newArray = [...oldArray, newItem];
+
+5. Promise와 async/await
+async function fetchData() {
+  const response = await fetch('/api/data');
+  return response.json();
+}
+
+6. Modules (import/export)
+import React from 'react';
+export default MyComponent;
+
+7. Optional Chaining (ES2020)
+const value = user?.profile?.name;
+
+8. Nullish Coalescing (ES2020)
+const result = value ?? 'default';
+
+이러한 기능들을 활용하면 더 간결하고 읽기 쉬운 코드를 작성할 수 있습니다.",이자바,89,2025-01-16
+3,CSS Grid와 Flexbox 비교,"레이아웃을 위한 CSS Grid와 Flexbox의 차이점과 언제 어떤 것을 사용해야 하는지 알아봅시다.
+
+Flexbox:
+- 1차원 레이아웃 (행 또는 열)
+- 컨테이너 내 아이템들의 정렬과 분배
+- 네비게이션, 버튼 그룹, 센터링에 적합
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+CSS Grid:
+- 2차원 레이아웃 (행과 열)
+- 복잡한 레이아웃 구조
+- 페이지 전체 레이아웃, 카드 그리드에 적합
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+언제 무엇을 사용할까?
+- 단순한 1차원 정렬: Flexbox
+- 복잡한 2차원 레이아웃: Grid
+- 반응형 카드 레이아웃: Grid
+- 네비게이션 메뉴: Flexbox
+
+두 기술을 함께 사용하는 것도 가능하며, 실제로는 조합해서 사용하는 경우가 많습니다.",박스타일,156,2025-01-17
+4,Node.js API 서버 구축하기,"Express.js를 사용한 RESTful API 서버 구축 과정을 단계별로 설명합니다.
+
+1. 프로젝트 초기화
+npm init -y
+npm install express cors helmet morgan
+
+2. 기본 서버 설정
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+app.use(cors());
+
+3. 라우트 정의
+app.get('/api/users', (req, res) => {
+  res.json({ users: [] });
+});
+
+app.post('/api/users', (req, res) => {
+  const { name, email } = req.body;
+  // 사용자 생성 로직
+  res.status(201).json({ id: 1, name, email });
+});
+
+4. 미들웨어 활용
+const authenticateToken = (req, res, next) => {
+  const token = req.header('Authorization');
+  if (!token) return res.status(401).json({ error: 'Access denied' });
+  // 토큰 검증 로직
+  next();
+};
+
+5. 에러 처리
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
+
+6. 서버 시작
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+이제 Postman이나 Thunder Client로 API를 테스트해보세요!",최노드,203,2025-01-18
+5,Git 브랜치 전략 가이드,"효율적인 Git 브랜치 관리를 위한 Git Flow와 GitHub Flow 전략을 비교 분석합니다.
+
+Git Flow:
+복잡한 프로젝트에 적합한 브랜치 전략
+
+주요 브랜치:
+- main: 프로덕션 릴리즈
+- develop: 개발 통합
+- feature/*: 기능 개발
+- release/*: 릴리즈 준비
+- hotfix/*: 긴급 수정
+
+워크플로우:
+1. feature 브랜치에서 개발
+2. develop 브랜치로 병합
+3. release 브랜치에서 릴리즈 준비
+4. main 브랜치로 최종 병합
+
+GitHub Flow:
+간단하고 빠른 배포가 필요한 프로젝트에 적합
+
+워크플로우:
+1. main 브랜치에서 feature 브랜치 생성
+2. 기능 개발 후 Pull Request 생성
+3. 코드 리뷰 및 테스트
+4. main 브랜치로 병합 후 즉시 배포
+
+선택 기준:
+- 복잡한 릴리즈 주기: Git Flow
+- 빠른 배포와 간단한 구조: GitHub Flow
+- 팀 크기와 프로젝트 복잡도 고려
+
+브랜치 명명 규칙:
+- feature/user-authentication
+- bugfix/login-error
+- hotfix/security-patch",강깃허브,78,2025-01-19
+6,TypeScript 기본부터 고급까지,"TypeScript는 JavaScript에 정적 타입을 추가한 언어로, 대규모 애플리케이션 개발에 필수적인 도구입니다.
+
+기본 타입 정의:
+interface User {
+  id: number;
+  name: string;
+  email?: string;
+}
+
+function createUser(userData: User): User {
+  return { ...userData };
+}
+
+제네릭 활용:
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+const stringResult = identity<string>('hello');
+const numberResult = identity<number>(42);
+
+유니온 타입:
+type Status = 'loading' | 'success' | 'error';
+
+인터섹션 타입:
+type Employee = Person & {
+  employeeId: string;
+  department: string;
+};
+
+고급 타입:
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
+
+type Pick<T, K extends keyof T> = {
+  [P in K]: T[P];
+};
+
+TypeScript 설정:
+// tsconfig.json
+{
+  ""compilerOptions"": {
+    ""target"": ""ES2020"",
+    ""module"": ""ESNext"",
+    ""strict"": true,
+    ""noImplicitAny"": true,
+    ""strictNullChecks"": true
+  }
+}
+
+타입 가드:
+function isString(value: any): value is string {
+  return typeof value === 'string';
+}
+
+이러한 TypeScript 기능들을 활용하면 런타임 에러를 줄이고 코드의 가독성과 유지보수성을 크게 향상시킬 수 있습니다.",정타입,245,2025-01-20
+7,Vue.js 3 Composition API 활용법,"Vue 3의 Composition API는 로직 재사용성과 타입 추론을 개선한 새로운 API입니다.
+
+기본 사용법:
+import { ref, reactive, computed, watch } from 'vue';
+
+export default {
+  setup() {
+    const count = ref(0);
+    const user = reactive({
+      name: 'John',
+      age: 30
+    });
+
+    const doubleCount = computed(() => count.value * 2);
+
+    watch(count, (newVal, oldVal) => {
+      console.log(`Count changed from ${oldVal} to ${newVal}`);
+    });
+
+    function increment() {
+      count.value++;
+    }
+
+    return {
+      count,
+      user,
+      doubleCount,
+      increment
+    };
+  }
+};
+
+Composable 함수:
+// useCounter.js
+import { ref } from 'vue';
+
+export function useCounter(initialValue = 0) {
+  const count = ref(initialValue);
+
+  const increment = () => count.value++;
+  const decrement = () => count.value--;
+  const reset = () => count.value = initialValue;
+
+  return {
+    count,
+    increment,
+    decrement,
+    reset
+  };
+}
+
+// 컴포넌트에서 사용
+import { useCounter } from './composables/useCounter';
+
+export default {
+  setup() {
+    const { count, increment, decrement } = useCounter(10);
+
+    return {
+      count,
+      increment,
+      decrement
+    };
+  }
+};
+
+라이프사이클 훅:
+import { onMounted, onUpdated, onUnmounted } from 'vue';
+
+export default {
+  setup() {
+    onMounted(() => {
+      console.log('Component mounted');
+    });
+
+    onUpdated(() => {
+      console.log('Component updated');
+    });
+
+    onUnmounted(() => {
+      console.log('Component unmounted');
+    });
+  }
+};
+
+Composition API를 통해 로직을 더 체계적으로 구성하고 재사용할 수 있습니다.",유뷰제이,134,2025-01-21
+8,웹 성능 최적화 기법,"웹 애플리케이션의 성능을 향상시키기 위한 다양한 최적화 기법들을 알아봅시다.
+
+이미지 최적화:
+- WebP, AVIF 형식 사용
+- 이미지 크기 최적화 (width, height 지정)
+- Lazy Loading 구현
+- responsive images 활용
+
+<img
+  src=""image.webp""
+  alt=""Description""
+  width=""300""
+  height=""200""
+  loading=""lazy""
+/>
+
+CSS 최적화:
+- Critical CSS 추출
+- CSS 파일 압축 및 병합
+- 사용하지 않는 CSS 제거
+- CSS-in-JS 최적화
+
+JavaScript 최적화:
+- 코드 스플리팅
+- Tree shaking
+- 번들 크기 분석
+- 사용하지 않는 코드 제거
+
+// 동적 임포트를 통한 코드 스플리팅
+const LazyComponent = React.lazy(() => import('./LazyComponent'));
+
+네트워크 최적화:
+- HTTP/2 활용
+- CDN 사용
+- Gzip/Brotli 압축
+- 리소스 프리로딩
+
+<link rel=""preload"" href=""/fonts/main.woff2"" as=""font"" type=""font/woff2"" crossorigin>
+<link rel=""prefetch"" href=""/api/data"">
+
+브라우저 캐싱:
+- Cache-Control 헤더 설정
+- ETag 활용
+- Service Worker 캐싱
+- localStorage 적절한 사용
+
+성능 측정:
+- Lighthouse 점수 모니터링
+- Core Web Vitals 추적
+- Real User Monitoring (RUM)
+- 성능 예산 설정
+
+이러한 최적화 기법들을 체계적으로 적용하면 사용자 경험을 크게 개선할 수 있습니다.",성최적,189,2025-01-22
+9,MongoDB 데이터 모델링,"NoSQL 데이터베이스인 MongoDB의 효율적인 데이터 모델링 패턴을 학습합니다.
+
+문서 구조 설계:
+// 사용자 컬렉션
+{
+  _id: ObjectId('...'),
+  username: 'john_doe',
+  email: 'john@example.com',
+  profile: {
+    firstName: 'John',
+    lastName: 'Doe',
+    age: 30,
+    avatar: 'https://example.com/avatar.jpg'
+  },
+  preferences: {
+    theme: 'dark',
+    notifications: true,
+    language: 'en'
+  },
+  createdAt: ISODate('2025-01-01T00:00:00Z'),
+  updatedAt: ISODate('2025-01-01T00:00:00Z')
+}
+
+관계 모델링:
+1. 임베딩 (Embedding)
+// 1:Few 관계에 적합
+{
+  _id: ObjectId('...'),
+  title: 'Blog Post',
+  content: '...',
+  comments: [
+    {
+      author: 'Jane',
+      text: 'Great post!',
+      createdAt: ISODate('...')
+    }
+  ]
+}
+
+2. 참조 (Referencing)
+// 1:Many 관계에 적합
+{
+  _id: ObjectId('...'),
+  title: 'Blog Post',
+  author: ObjectId('user_id'),
+  categories: [ObjectId('cat1'), ObjectId('cat2')]
+}
+
+인덱스 최적화:
+db.users.createIndex({ email: 1 }, { unique: true });
+db.posts.createIndex({ author: 1, createdAt: -1 });
+db.posts.createIndex({ '$**': 'text' }); // 텍스트 검색
+
+집계 파이프라인:
+db.orders.aggregate([
+  { $match: { status: 'completed' } },
+  { $group: {
+    _id: '$customerId',
+    totalAmount: { $sum: '$amount' },
+    orderCount: { $sum: 1 }
+  }},
+  { $sort: { totalAmount: -1 } },
+  { $limit: 10 }
+]);
+
+스키마 검증:
+db.createCollection('users', {
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['username', 'email'],
+      properties: {
+        username: { bsonType: 'string' },
+        email: { bsonType: 'string', pattern: '^.+@.+$' }
+      }
+    }
+  }
+});
+
+MongoDB의 유연성을 활용하되, 적절한 구조와 인덱스로 성능을 최적화하는 것이 중요합니다.",몽구디비,92,2025-01-23
+10,React Hooks 심화 가이드,"React Hooks의 고급 활용법과 커스텀 훅 개발 방법을 상세히 알아봅시다.
+
+useEffect 최적화:
+// 의존성 배열 최적화
+useEffect(() => {
+  fetchUserData(userId);
+}, [userId]); // userId가 변경될 때만 실행
+
+// cleanup 함수 활용
+useEffect(() => {
+  const subscription = subscribeToData();
+  return () => subscription.unsubscribe();
+}, []);
+
+useCallback과 useMemo:
+// 함수 메모이제이션
+const memoizedCallback = useCallback(() => {
+  doSomething(a, b);
+}, [a, b]);
+
+// 값 메모이제이션
+const expensiveValue = useMemo(() => {
+  return computeExpensiveValue(props.data);
+}, [props.data]);
+
+커스텀 훅 개발:
+// useLocalStorage 훅
+function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.error(error);
+      return initialValue;
+    }
+  });
+
+  const setValue = useCallback((value) => {
+    try {
+      setStoredValue(value);
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [key]);
+
+  return [storedValue, setValue];
+}
+
+// useFetch 훅
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(url);
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  return { data, loading, error };
+}
+
+useReducer 고급 패턴:
+function reducer(state, action) {
+  switch (action.type) {
+    case 'FETCH_START':
+      return { ...state, loading: true, error: null };
+    case 'FETCH_SUCCESS':
+      return { ...state, loading: false, data: action.payload };
+    case 'FETCH_ERROR':
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+}
+
+function useAsyncReducer(asyncFunction) {
+  const [state, dispatch] = useReducer(reducer, {
+    data: null,
+    loading: false,
+    error: null
+  });
+
+  const execute = useCallback(async (...args) => {
+    dispatch({ type: 'FETCH_START' });
+    try {
+      const result = await asyncFunction(...args);
+      dispatch({ type: 'FETCH_SUCCESS', payload: result });
+    } catch (error) {
+      dispatch({ type: 'FETCH_ERROR', payload: error });
+    }
+  }, [asyncFunction]);
+
+  return { ...state, execute };
+}
+
+이러한 고급 패턴들을 활용하면 더 효율적이고 재사용 가능한 React 컴포넌트를 작성할 수 있습니다.",훅마스터,167,2025-01-24
 6,TypeScript 기본부터 고급까지,JavaScript 개발자를 위한 TypeScript 완벽 가이드입니다. 타입 정의부터 고급 패턴까지 다룹니다.,정타입,245,2025-01-20
 7,Vue.js 3 Composition API 활용법,Vue 3의 새로운 Composition API를 활용한 컴포넌트 개발 패턴을 소개합니다.,유뷰제이,134,2025-01-21
 8,웹 성능 최적화 기법,웹 애플리케이션의 로딩 속도와 런타임 성능을 향상시키는 다양한 기법들을 알아봅시다.,성최적,189,2025-01-22

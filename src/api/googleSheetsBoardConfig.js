@@ -55,6 +55,15 @@ export const transformBoardData = (response) => {
   }
 
   const [headers, ...rows] = response.values;
+  
+  // 🔍 디버깅: 원본 데이터 확인
+  console.log('🔍 Google Sheets 원본 데이터:');
+  console.log('헤더:', headers);
+  console.log('첫 번째 행 데이터:', rows[0]);
+  if (rows[0] && rows[0][2]) {
+    console.log('첫 번째 행 내용 컬럼 (인덱스 2):', rows[0][2]);
+    console.log('내용 길이:', rows[0][2].length);
+  }
 
   return rows.map((row, index) => ({
     id: parseInt(row[0]) || index + 1,

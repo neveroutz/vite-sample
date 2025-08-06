@@ -85,6 +85,23 @@ const useGoogleSheetsBoard = () => {
     }
   }, [loadPosts]);
 
+  // 게시글 ID로 개별 조회 함수
+  const getPostById = useCallback((id) => {
+    console.log('🔍 게시글 ID로 조회:', id);
+    const post = posts.find(post => post.id === parseInt(id));
+    console.log('📄 조회된 게시글:', post);
+    return post;
+  }, [posts]);
+
+  // 이전/다음 게시글 조회 함수
+  const getAdjacentPosts = useCallback((currentId) => {
+    const currentIndex = posts.findIndex(post => post.id === parseInt(currentId));
+    const prevPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
+    const nextPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+
+    return { prevPost, nextPost };
+  }, [posts]);
+
   // 초기 로드
   useEffect(() => {
     loadPosts();
@@ -96,7 +113,9 @@ const useGoogleSheetsBoard = () => {
     error,
     totalPosts,
     loadPosts,
-    searchPosts
+    searchPosts,
+    getPostById,
+    getAdjacentPosts
   };
 };
 
