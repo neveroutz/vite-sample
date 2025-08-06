@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>Vite Sample</title>
+  <script type="text/javascript">
+    // GitHub Pages에서 SPA 라우팅을 위한 404 처리
+    // 현재 URL을 sessionStorage에 저장하고 루트로 리다이렉트
+    var pathSegmentsToKeep = 1; // GitHub Pages repo name을 위해 1개 세그먼트 유지
+    
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + 
+      '/?/' +
+      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      l.hash
+    );
+  </script>
+</head>
+<body>
+</body>
+</html>
