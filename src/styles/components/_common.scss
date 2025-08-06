@@ -499,3 +499,31 @@
     }
   }
 }
+
+.table-wrapper {
+  table {
+    width:100%;
+    table-layout: fixed;
+    border-spacing: 0;
+    thead {
+      th {
+        padding:8px;
+        background-color:#eee;
+      }
+    }
+    tbody {
+      td {
+        padding:8px;
+        border-bottom:1px solid #ddd;
+        &.l {
+          text-align:left;
+        }
+        a {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}

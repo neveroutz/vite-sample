@@ -9,6 +9,7 @@ import GoogleSheetsControls from './components/GoogleSheetsControls.jsx';
 import { useGoogleSheets } from './hooks/useGoogleSheets.js';
 import Page1 from './Page1.jsx';
 import Page2 from './Page2.jsx';
+import BoardList from './BoardList.jsx';
 import Tab from './Tab.jsx';
 
 
@@ -44,6 +45,9 @@ function Layout() {
           <Link to="/page2" className="nav-link">
             Page 2
           </Link>
+          <Link to="/BoardList" className="nav-link">
+            게시판
+          </Link>
         </nav>
       )}
 
@@ -51,6 +55,7 @@ function Layout() {
         <Route path="/" element={<HomePage />} />
         <Route path="/page1" element={<Page1 />} />
         <Route path="/page2" element={<Page2 />} />
+        <Route path="/BoardList" element={<BoardList />} />
       </Routes>
 
       {config.hasFooter && (

@@ -17,6 +17,9 @@ function Page2() {
           <Link to="/page2" className="page2-nav-link active">
             ⭐ Page 2
           </Link>
+          <Link to="/BoardList" className="page2-nav-link">
+            📄 게시판
+          </Link>
         </div>
       </nav>
 
